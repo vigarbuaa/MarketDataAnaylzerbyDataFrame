@@ -4,16 +4,6 @@
 2. 新增方法resultOutput，根据对比值，输出检查点之后的走势，支持导出csv分析。
 3. 修复一些比较机械的写法
 
-
-
-
-
-
-
-
-
-
-
 ----------------------------------------------------------------------------------------------------------------------------------------
 A tool as Data Analyzer for commodity or stock by DataFrame 
 
@@ -34,3 +24,11 @@ A tool as Data Analyzer for commodity or stock by DataFrame
 2.2 计算每个时间点的当前价格，和之后第5根K线结束价格差，和cci的值做成散点图，
 
 2.3 cci值在正负（100-200）区间，和（200-300）区间算是出现比较少，计算在这个区间出现时，之后第2，第4，和第6根K线结束价格增多还是减少概率
+
+# talib related tool
+1. ta.py
+-- tqsdk talib related
+2. utility.py 
+-- vnpy talib related
+
+# 
