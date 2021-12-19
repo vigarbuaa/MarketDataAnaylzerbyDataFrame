@@ -960,6 +960,49 @@ class ArrayManager(object):
             return result
         return result[-1]
 
+    def dc(self, array: bool = False) -> Union[float, np.ndarray]:
+        result = np.zeros(0)#1
+        for i in list(range(-self.size+1, 0, 1)):
+            result = np.append(result, self.close[i]/self.close[i-1]-1)
+        if array:
+            return result
+        return result[-1]
+
+    def nvi(self, n: int, array: bool = False) -> Union[
+        Tuple[np.ndarray, np.ndarray],
+        Tuple[float, float]
+    ]:
+        dc = self.dc(n, array = True)
+        nvix = np.zeros(self.size)
+        NVI = np.zeros(0)#1
+        for i in list(range(-self.size+1, 0, 1)):
+            if self.volume_array[i-1] <= self.volume_array[i]:
+                nvix[i] = 0
+            elif self.volume_array[i-1] > self.volume_array[i]:
+                nvix[i] = dc[i]*100
+            NVI = np.append(NVI, sum(nvix[:-1])+100)
+        MANVI = talib.SMA(NVI, n)
+        if array:
+            return NVI, MANVI
+        return NVI[-1], MANVI[-1]
+
+    def pvi(self, n: int, array: bool = False) -> Union[
+        Tuple[np.ndarray, np.ndarray],
+        Tuple[float, float]
+    ]:
+        dc = self.dc(n, array = True)
+        pvix = np.zeros(self.size)
+        PVI = np.zeros(0)#1
+        for i in list(range(-self.size+1, 0, 1)):
+            if self.volume_array[i-1] < self.volume_array[i]:
+                pvix[i] = dc[i]*100
+            elif self.volume_array[i-1] >= self.volume_array[i]:
+                pvix[i] = 0
+            PVI = np.append(PVI, sum(pvix[:-1])+100)
+        MAPVI = talib.SMA(PVI, n)
+        if array:
+            return PVI, MAPVI
+        return PVI[-1], MAPVI[-1]
 
 def virtual(func: Callable) -> Callable:
     """
